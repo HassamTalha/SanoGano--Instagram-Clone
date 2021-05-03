@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   id="svg3650"
+   xml:space="preserve"
+   width="200"
+   height="200"
+   viewBox="0 0 200 200"><metadata
+     id="metadata3656"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+     id="defs3654"><clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3666"><path
+         d="M 0,150 H 150 V 0 H 0 Z"
+         id="path3664" /></clipPath></defs><g
+     id="g3658"
+     transform="matrix(1.3333333,0,0,-1.3333333,0,200)"><g
+       id="g3660"><g
+         id="g3662"
+         clip-path="url(#clipPath3666)"><g
+           id="g3668"
+           transform="translate(145.001,124.5537)"><path
+             d="m 0,0 -20.465,0.004 v 20.442 c 0,2.762 -2.238,5 -5,5 -2.762,0 -5,-2.238 -5,-5 V 0.004 h -20.947 c -2.761,0 -5,-2.238 -5,-5 0,-2.761 2.239,-5 5,-5 h 20.947 v -20.946 c 0,-2.762 2.238,-5 5,-5 2.762,0 5,2.238 5,5 V -9.996 L -0.002,-10 c 2.762,0 5.001,2.238 5.001,5 0,2.761 -2.238,5 -4.999,5"
+             style="fill:#42538d;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path3670" /></g><g
+           id="g3672"
+           transform="translate(107.9473,10)"><path
+             d="m 0,0 h -91.354 c -3.641,0 -6.593,2.952 -6.593,6.594 v 91.354 c 0,3.641 2.952,6.594 6.593,6.594 h 46.996 c 2.761,0 5,2.238 5,5 0,2.761 -2.239,4.999 -5,4.999 h -47.899 c -8.665,0 -15.69,-7.024 -15.69,-15.69 V 5.69 c 0,-8.666 7.025,-15.69 15.69,-15.69 h 93.16 c 8.666,0 15.691,7.024 15.691,15.69 v 47.899 c 0,2.762 -2.239,5 -5,5 -2.762,0 -5,-2.238 -5,-5 V 6.594 C 6.594,2.952 3.642,0 0,0"
+             style="fill:#42538d;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path3674" /></g></g></g></g></svg>
