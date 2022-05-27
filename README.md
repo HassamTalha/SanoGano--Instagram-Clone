@@ -1,16 +1,31 @@
-# sanogano
+<h1 align="center" style="font-size: 52px;" >SanoGano - Instagram Clone</h1>
 
-A new Flutter project.
+An Instgram Clone made up with Flutter and Firebase.
+And includes most of the functionalities of the Orignal App Instagram :p
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+<br>
 
-A few resources to get you started if this is your first Flutter project:
+<img src="https://user-images.githubusercontent.com/43790152/136709012-5e27b2f9-06d6-40fc-8ed0-26d67818e204.png">
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## 📱 Features
+Following are the features available in SanoGano:
+- **Authentication (Login, Signup, Phone signin, OTP Verification, Password reset, Email Authentication)**
+- **Timeline Postings**
+- **Stories - Like Instagram and facebook**
+- **Video Short**
+- **Workouts**
+- **Recipies**
+- **Direct Messaging**
+- **Group Chats**
+- **Different topics to search about**
+- **Friend Requests - Friends List**
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+Yet many features are under development and the features mentioned above may have some bugs because they are not tested thoroughly. 
+
+This project is just to help others who want to get started with some pet projects. And want to learn some things like stories and video trimming can be a good takeaway from this project. 
+
+- **Note:** I am encoding videos on client side which is not the best way to do this because it leads to long waiting times and circular progress indicators. Its always recommended to encode videos on the server side. 
+
+Show some love 🧡 :)
