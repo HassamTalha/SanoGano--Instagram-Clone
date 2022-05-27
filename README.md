@@ -6,7 +6,7 @@ And includes most of the functionalities of the Orignal App Instagram :p
 
 <br>
 
-<img src="[https://user-images.githubusercontent.com/43790152/136709012-5e27b2f9-06d6-40fc-8ed0-26d67818e204.png](https://github.com/HassamTalha/SanoGano--Instagram-Clone/blob/main/assets/Sano%20Gano.png?raw=true)">
+<img src="https://user-images.githubusercontent.com/43790152/136709012-5e27b2f9-06d6-40fc-8ed0-26d67818e204.png](https://github.com/HassamTalha/SanoGano--Instagram-Clone/blob/main/assets/Sano%20Gano.png">
 
 ## 📱 Features
 Following are the features available in SanoGano:
