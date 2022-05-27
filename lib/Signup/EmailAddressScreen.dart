@@ -5,7 +5,7 @@ import 'package:sanogano/models/User.dart';
 
 import 'package:toast/toast.dart';
 class EmailAddressScreen extends StatefulWidget {
-  final User user;
+  final AppUser user;
   EmailAddressScreen(this.user);
   @override
   _EmailAddressScreenState createState() => _EmailAddressScreenState();
@@ -110,7 +110,7 @@ class _EmailAddressScreenState extends State<EmailAddressScreen> {
                     Toast.show("Please enter a valid Email Address", context);
                   }
                   else{
-                    User user = widget.user.copyWith(email: _emailcontroller.text.trim());
+                    AppUser user = widget.user.copyWith(email: _emailcontroller.text.trim());
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> ConfirmAccountScreen(user)));
                   }
                 }

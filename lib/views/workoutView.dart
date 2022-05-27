@@ -16,33 +16,9 @@ class WorkoutView extends StatefulWidget {
 }
 
 class _WorkoutViewState extends State<WorkoutView> {
-  bool insValidate = false;
-  bool ingreValidte = false;
-  bool descriptionValidate = false;
-  bool servingsValidate = false;
-  bool timeValidate = false;
-  bool nameValidate = false;
-  TextEditingController _workoutNameController,
-      _exerciseController,
-      _notesController;
   bool check = false;
   DateTime _chosenDateTime;
   String time;
-  Widget changeState() {
-    return Container();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    setControllers();
-  }
-
-  void setControllers() {
-    _workoutNameController = TextEditingController();
-    _exerciseController = TextEditingController();
-    _notesController = TextEditingController();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,8 +140,11 @@ class _WorkoutViewState extends State<WorkoutView> {
                               Radius.circular(20),
                             ),
                             image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage('assets/images/appbar.png')),
+                              fit: BoxFit.cover,
+                              image: widget.workoutDetails.image != null
+                                  ? NetworkImage(widget.workoutDetails.image)
+                                  : AssetImage("assets/images/Gym.ai.png"),
+                            ),
                           ),
                           width: 174,
                           height: 174,
@@ -196,83 +175,5 @@ class _WorkoutViewState extends State<WorkoutView> {
         ),
       ),
     );
-  }
-
-  bool validateRecipe(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        nameValidate = true;
-      });
-      return false;
-    }
-    setState(() {
-      nameValidate = false;
-    });
-    return true;
-  }
-
-  bool validateTime(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        timeValidate = true;
-      });
-      return false;
-    }
-    setState(() {
-      timeValidate = false;
-    });
-    return true;
-  }
-
-  bool validateServings(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        servingsValidate = true;
-      });
-      return false;
-    }
-    setState(() {
-      servingsValidate = false;
-    });
-    return true;
-  }
-
-  bool validateDescription(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        descriptionValidate = true;
-      });
-      return false;
-    }
-    setState(() {
-      descriptionValidate = false;
-    });
-    return true;
-  }
-
-  bool validateIngridients(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        ingreValidte = true;
-      });
-      return false;
-    }
-    setState(() {
-      ingreValidte = false;
-    });
-    return true;
-  }
-
-  bool validateInstructions(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        insValidate = true;
-      });
-      return false;
-    }
-    setState(() {
-      insValidate = false;
-    });
-    return true;
   }
 }

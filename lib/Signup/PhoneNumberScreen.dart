@@ -7,7 +7,7 @@ import 'package:toast/toast.dart';
 
 import 'EmailAddressScreen.dart';
 class PhoneNumberScreen extends StatefulWidget {
-  final User user;
+  final AppUser user;
   PhoneNumberScreen(this.user);
   @override
   _PhoneNumberScreenState createState() => _PhoneNumberScreenState();
@@ -138,7 +138,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
 
   void validateAndAuthenticateUser() {
     if (isValidated && phoneNumber.isNotEmpty) {
-      User user = widget.user.copyWith(phoneNumber: phoneNumber);
+      AppUser user = widget.user.copyWith(phoneNumber: phoneNumber);
       print(user.phoneNumber);
 
       Navigator.push(context,

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 import 'package:sanogano/code/Settings.dart';
 import 'package:sanogano/code/SpancerProfile.dart';
@@ -15,6 +18,7 @@ import 'package:toast/toast.dart';
 import '../screens/list.dart';
 
 import 'cookbook_page.dart';
+import 'gym_page.dart';
 import 'home_page.dart';
 import 'life_page.dart';
 
@@ -46,9 +50,7 @@ class _RootAppState extends State<RootApp> {
 
   Widget getBody() {
     List<Widget> pages = [
-      HomePage(
-        
-      ),
+      HomePage(),
       LifePage(),
       CookbookPage(),
       ActivityPage(),
@@ -73,7 +75,10 @@ class _RootAppState extends State<RootApp> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CreatePost(userId:widget.userId,)),
+                  MaterialPageRoute(
+                      builder: (context) => CreatePost(
+                            userId: widget.userId,
+                          )),
                 );
               },
               child: SvgPicture.asset(
@@ -120,7 +125,10 @@ class _RootAppState extends State<RootApp> {
             children: [
               InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GymPage()),
+                    );
                   },
                   child: new RotatedBox(
                     quarterTurns: 2,
@@ -178,7 +186,7 @@ class _RootAppState extends State<RootApp> {
                 ),
                 InkWell(
                   onTap: () {
-                    Toast.show("I am not implemented yet",context);
+                    Toast.show("I am not implemented yet", context);
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(
@@ -240,19 +248,29 @@ class _RootAppState extends State<RootApp> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            "assets/icons/Back.ai.svg",
-            height: 25,
-            color: Colors.black,
-          ),
-          onPressed: () {},
-        ),
-        title: Text(
-          "Spancer",
-          style: TextStyle(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
-        ),
+        // leading: IconButton(
+        //   icon: SvgPicture.asset(
+        //     "assets/icons/Back.ai.svg",
+        //     height: 25,
+        //     color: Colors.black,
+        //   ),
+        //   onPressed: () {},
+        // ),
+        title: FutureBuilder(
+            future: getUserName(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data != null) {
+                return Text(
+                  snapshot.data,
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                );
+              } else {
+                return Text("Connecting...");
+              }
+            }),
         actions: [
           IconButton(
               padding: EdgeInsets.only(right: 20),
@@ -292,17 +310,34 @@ class _RootAppState extends State<RootApp> {
         color: pageIndex == 3 ? Colors.black : Colors.black38,
         width: 27,
       ),
-      Container(
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-            border: Border.all(
-                color: pageIndex == 4 ? black : Colors.black38, width: 2.5),
-            shape: BoxShape.circle,
-            image: DecorationImage(
-                image: AssetImage('assets/images/ibrahim.jpg'),
-                fit: BoxFit.cover)),
-      ),
+      StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection("Users")
+              .doc(widget.userId)
+              .get()
+              .asStream(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
+                           DocumentSnapshot doc = snapshot.data;
+
+              return Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: pageIndex == 4 ? black : Colors.black38,
+                        width: 2.5),
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: doc["profileDP"] == "default" ?  AssetImage('assets/default_avatar.png') : NetworkImage(doc["profileDP"]),
+                        fit: BoxFit.cover)),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
     ];
     return Container(
       width: double.infinity,
@@ -331,5 +366,14 @@ class _RootAppState extends State<RootApp> {
     setState(() {
       pageIndex = index;
     });
+  }
+
+  getUserName() async {
+    User user =  FirebaseAuth.instance.currentUser;
+
+    DocumentSnapshot doc =
+        await FirebaseFirestore.instance.collection("Users").doc(user.uid).get();
+
+    return toBeginningOfSentenceCase(doc["name"]);
   }
 }

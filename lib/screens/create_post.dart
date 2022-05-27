@@ -57,7 +57,7 @@ class _CreatePostState extends State<CreatePost> {
 
   PageController contt = PageController(viewportFraction: 0.2, initialPage: 1);
   int selectedPage = 1;
-  List<String> wid = ["Story", "Post", "Recipe", "Workout", "      "];
+  List<String> wid = ["Story", "Post", "Recipe", "Workout", ];
   List<CameraDescription> _cameras;
   // PageController _pageController = PageController();
   Future<Null> _getCameras() async {
@@ -241,24 +241,24 @@ class _CreatePostState extends State<CreatePost> {
                                         print(widget.imageFile.path);
                                         String fileName =
                                             (widget.imageFile.path);
-                                        StorageReference firebaseStorageRef =
+                                        Reference firebaseStorageRef =
                                             FirebaseStorage.instance
                                                 .ref()
                                                 .child(imageName);
-                                        StorageUploadTask uploadTask =
+                                        UploadTask uploadTask =
                                             firebaseStorageRef
                                                 .putFile(widget.imageFile);
-                                        StorageTaskSnapshot taskSnapshot =
-                                            await uploadTask.onComplete;
+                                        TaskSnapshot taskSnapshot =
+                                            await uploadTask;
                                         taskSnapshot.ref
                                             .getDownloadURL()
                                             .then((value) {
                                           print("Done: $value");
-                                          Firestore.instance
+                                          FirebaseFirestore.instance
                                               .collection(
                                                   "users/${widget.userId}/images")
-                                              .document()
-                                              .setData({"DownloadUrl": value});
+                                              .doc()
+                                              .set({"DownloadUrl": value});
                                         });
 
                                         // var p;
@@ -398,6 +398,7 @@ class _CreatePostState extends State<CreatePost> {
                         height: 30,
                         // width: double.infinity,
                         child: PageView.builder(
+                          allowImplicitScrolling: false,
                           onPageChanged: (index) {
                             setState(() {
                               selectedPage = index;
@@ -597,25 +598,25 @@ class _CreatePostState extends State<CreatePost> {
                                               print(widget.imageFile.path);
                                               String fileName =
                                                   (widget.imageFile.path);
-                                              StorageReference
+                                              Reference
                                                   firebaseStorageRef =
                                                   FirebaseStorage.instance
                                                       .ref()
                                                       .child(imageName);
-                                              StorageUploadTask uploadTask =
+                                              UploadTask uploadTask =
                                                   firebaseStorageRef.putFile(
                                                       widget.imageFile);
-                                              StorageTaskSnapshot taskSnapshot =
-                                                  await uploadTask.onComplete;
+                                              TaskSnapshot taskSnapshot =
+                                                  await uploadTask;
                                               taskSnapshot.ref
                                                   .getDownloadURL()
                                                   .then((value) {
                                                 print("Done: $value");
-                                                Firestore.instance
+                                                FirebaseFirestore.instance
                                                     .collection(
                                                         "users/${widget.userId}/images")
-                                                    .document()
-                                                    .setData(
+                                                    .doc()
+                                                    .set(
                                                         {"DownloadUrl": value});
                                               });
 
@@ -1095,25 +1096,25 @@ class _CreatePostState extends State<CreatePost> {
                                               print(widget.imageFile.path);
                                               String fileName =
                                                   (widget.imageFile.path);
-                                              StorageReference
+                                              Reference
                                                   firebaseStorageRef =
                                                   FirebaseStorage.instance
                                                       .ref()
                                                       .child(imageName);
-                                              StorageUploadTask uploadTask =
+                                              UploadTask uploadTask =
                                                   firebaseStorageRef.putFile(
                                                       widget.imageFile);
-                                              StorageTaskSnapshot taskSnapshot =
-                                                  await uploadTask.onComplete;
+                                              TaskSnapshot taskSnapshot =
+                                                  await uploadTask;
                                               taskSnapshot.ref
                                                   .getDownloadURL()
                                                   .then((value) {
                                                 print("Done: $value");
-                                                Firestore.instance
+                                                FirebaseFirestore.instance
                                                     .collection(
                                                         "users/${widget.userId}/images")
-                                                    .document()
-                                                    .setData(
+                                                    .doc()
+                                                    .set(
                                                         {"DownloadUrl": value});
                                               });
 
@@ -1439,25 +1440,25 @@ class _CreatePostState extends State<CreatePost> {
   int _videoDuration = 0;
   // String _processPhase = '';
   final bool _debugMode = false;
-  void _onUploadProgress(event) {
-    if (event.type == StorageTaskEventType.progress) {
+  void _onUploadProgress(TaskSnapshot event) {
+      
       final double progress =
-          event.snapshot.bytesTransferred / event.snapshot.totalByteCount;
+          event.bytesTransferred / event.totalBytes;
       setState(() {
         _progress = progress;
       });
-    }
+    
   }
 
   Future<String> _uploadFile(filePath, folderName) async {
     final file = new File(filePath);
     final basename = p.basename(filePath);
 
-    final StorageReference ref =
+    final Reference ref =
         FirebaseStorage.instance.ref().child(folderName).child(basename);
-    StorageUploadTask uploadTask = ref.putFile(file);
-    uploadTask.events.listen(_onUploadProgress);
-    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+   UploadTask uploadTask = ref.putFile(file);
+    uploadTask.snapshotEvents.listen(_onUploadProgress);
+    TaskSnapshot taskSnapshot = await uploadTask;
     String videoUrl = await taskSnapshot.ref.getDownloadURL();
     return videoUrl;
   }

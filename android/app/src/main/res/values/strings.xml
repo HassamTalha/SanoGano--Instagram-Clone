@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sano Gano</string>
+
+    <string name="facebook_app_id">609454940033484</string>
+    
+    <string name="fb_login_protocol_scheme">fb609454940033484</string>
+</resources>
+
+

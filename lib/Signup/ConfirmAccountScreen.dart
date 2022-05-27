@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class ConfirmAccountScreen extends StatefulWidget {
-  final User user;
+  final AppUser user;
   ConfirmAccountScreen(this.user);
   @override
   _ConfirmAccountScreenState createState() => _ConfirmAccountScreenState();
@@ -124,8 +124,8 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
     });
   }
 
-  Future<bool> signUp(User user) async {
-    AuthResult result = await _auth.createUserWithEmailAndPassword(
+  Future<bool> signUp(AppUser user) async {
+    UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: user.email, password: user.password);
     try {
       await result.user.sendEmailVerification();
@@ -141,10 +141,18 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
     }
   }
 
-  void saveUserToDatabase(FirebaseUser user) {
-    Firestore.instance
+  void saveUserToDatabase(User user) {
+    widget.user.accountCreated = Timestamp.now();
+    widget.user.bio= "Bio";
+    widget.user.followers = 00;
+    widget.user.following = 00;
+    widget.user.url = "...";
+     widget.user.username = "Username";
+     widget.user.profileDP = "default";
+
+    FirebaseFirestore.instance
         .collection("Users")
-        .document(user.uid)
-        .setData(widget.user.toMap());
+        .doc(user.uid)
+        .set(widget.user.toMap());
   }
 }

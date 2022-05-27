@@ -7,12 +7,57 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:356128418261:android:741022ab5ba406f43c755c",
+        "android_client_info": {
+          "package_name": "com.example.ibrahimui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356128418261-l84i87q71rk5m4f1653sltp8iq10aa2p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ibrahimui",
+            "certificate_hash": "7ddac809df41d79b7f76b068fdc683dd33c68172"
+          }
+        },
+        {
+          "client_id": "356128418261-nhnll54i8bjsu389vkgqoc2v83no7rs6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd5RBym53KTucmuj1MXOKHmQ-lO36AK60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356128418261-nhnll54i8bjsu389vkgqoc2v83no7rs6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:356128418261:android:13632ebe798177713c755c",
         "android_client_info": {
           "package_name": "com.example.sanogano"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "356128418261-i4np183vl8bctq1mi1o7rqaabsr01f94.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sanogano",
+            "certificate_hash": "7ddac809df41d79b7f76b068fdc683dd33c68172"
+          }
+        },
         {
           "client_id": "356128418261-rj1i8uf25j7411et88mckebomvl4vnqg.apps.googleusercontent.com",
           "client_type": 1,

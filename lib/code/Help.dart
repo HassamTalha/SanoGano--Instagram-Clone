@@ -16,7 +16,9 @@ class MyHelp extends StatelessWidget {
             height: 25,
             color: Colors.black,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Text(
           "Help",

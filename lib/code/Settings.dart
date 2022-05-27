@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sanogano/Login/LoginScreen.dart';
 
 import 'About.dart';
 import 'EditProfile.dart';
@@ -11,6 +15,7 @@ import 'Privecy.dart';
 import 'QRScan.dart';
 
 class MySettings extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +30,9 @@ class MySettings extends StatelessWidget {
               height: 25,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           title: Text(
             "Settings",
@@ -110,7 +117,13 @@ class MySettings extends StatelessWidget {
               ),
               InkWell(
                   onTap: () {
-                   
+                     GoogleSignIn _googleSignIn = GoogleSignIn();
+              _googleSignIn.disconnect();
+                    FirebaseAuth.instance.signOut();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        (route) => false);
                   },
                   child: SettingsModel("Log Out.ai", "Log Out")),
             ],

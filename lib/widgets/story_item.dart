@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../screens/StoryScreen.dart';
 
 class StoryItem extends StatelessWidget {
   final String img;
@@ -36,11 +35,12 @@ class StoryItem extends StatelessWidget {
                     ? Align(
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => StoryScreen()),
-                            );
+                            //TODO : yahan par stories implement karni hain
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => StoryScreen()),
+                            // );
                             print('hello');
                           },
                           child: Container(

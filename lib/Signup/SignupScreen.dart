@@ -199,7 +199,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     
     
     
-    User user = User(name: _usernameController.text.trim(), password: _passController.text.trim());
+    AppUser user = AppUser(name: _usernameController.text.trim(), password: _passController.text.trim(), );
     Navigator.push(context, MaterialPageRoute(builder: (context) => PhoneNumberScreen(user)));
     
   }

@@ -1,10 +1,14 @@
 import 'dart:io';
+import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sanogano/screens/create_post.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import '../models/workoutDetails.dart';
 
@@ -30,12 +34,28 @@ class _CreateWorkoutPostPageState extends State<CreateWorkoutPostPage> {
   bool check = false;
   DateTime _chosenDateTime;
   String time;
+  String userId;
+
   Widget changeState() {
     return Container();
   }
 
   @override
   void initState() {
+    print(
+        "===================================================================================");
+
+    getUserIdfromSF().then(
+      (value) {
+        setState(
+          () {
+            userId = value;
+            print(
+                "================================$userId=======================================");
+          },
+        );
+      },
+    );
     super.initState();
     setControllers();
   }
@@ -44,6 +64,14 @@ class _CreateWorkoutPostPageState extends State<CreateWorkoutPostPage> {
     _workoutNameController = TextEditingController();
     _exerciseController = TextEditingController();
     _notesController = TextEditingController();
+  }
+
+  Future<String> getUserIdfromSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return String
+    String userID = prefs.getString("userId") ?? "i have nothing to show";
+
+    return userID;
   }
 
   @override
@@ -80,7 +108,7 @@ class _CreateWorkoutPostPageState extends State<CreateWorkoutPostPage> {
                 // fontWeight: FontWeight.bold),
               ),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   if (_workoutNameController.text.isEmpty ||
                       _exerciseController.text.isEmpty ||
                       _notesController.text.isEmpty) {
@@ -116,6 +144,45 @@ class _CreateWorkoutPostPageState extends State<CreateWorkoutPostPage> {
                                 pageIndex: 3,
                               )),
                     );
+                    Toast.show(userId, context);
+                    if (widget.image!=null){
+                      final String rand = '${new Random().nextInt(10000)}';
+                    final imageName = 'image$rand';
+                    print(
+                        'object-----------------------------------------------');
+
+                    print(widget.image.path);
+                    String fileName = (widget.image.path);
+                    Reference firebaseStorageRef =
+                        FirebaseStorage.instance.ref().child(imageName);
+                    UploadTask uploadTask =
+                        firebaseStorageRef.putFile(widget.image);
+                    TaskSnapshot taskSnapshot =
+                        await uploadTask;
+                    taskSnapshot.ref.getDownloadURL().then((value) {
+                      print("Done: $value");
+                      FirebaseFirestore.instance
+                          .collection("users/$userId/workout")
+                          .doc()
+                          .set({
+                        "imageUrl": value,
+                        "workoutName": _workoutNameController.text,
+                        "workoutNotes": _notesController.text,
+                        "workoutExercise": _exerciseController.text,
+                      });
+                    });
+                    }
+                    else{
+                      FirebaseFirestore.instance
+                          .collection("users/$userId/workout")
+                          .doc()
+                          .set({
+                        "DownloadUrl": "",
+                        "workoutName": _workoutNameController.text.toString(),
+                        "workoutNotes": _notesController.text.toString(),
+                        "workoutExercise": _exerciseController.text.toString(),
+                      });
+                    }
                   }
                 },
                 child: Text(
@@ -317,81 +384,17 @@ class _CreateWorkoutPostPageState extends State<CreateWorkoutPostPage> {
     );
   }
 
-  bool validateRecipe(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        nameValidate = true;
-      });
-      return false;
-    }
-    setState(() {
-      nameValidate = false;
-    });
-    return true;
-  }
+  // bool validateRecipe(String userInput) {
+  //   if (userInput.isEmpty) {
+  //     setState(() {
+  //       nameValidate = true;
+  //     });
+  //     return false;
+  //   }
+  //   setState(() {
+  //     nameValidate = false;
+  //   });
+  //   return true;
+  // }
 
-  bool validateTime(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        timeValidate = true;
-      });
-      return false;
-    }
-    setState(() {
-      timeValidate = false;
-    });
-    return true;
-  }
-
-  bool validateServings(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        servingsValidate = true;
-      });
-      return false;
-    }
-    setState(() {
-      servingsValidate = false;
-    });
-    return true;
-  }
-
-  bool validateDescription(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        descriptionValidate = true;
-      });
-      return false;
-    }
-    setState(() {
-      descriptionValidate = false;
-    });
-    return true;
-  }
-
-  bool validateIngridients(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        ingreValidte = true;
-      });
-      return false;
-    }
-    setState(() {
-      ingreValidte = false;
-    });
-    return true;
-  }
-
-  bool validateInstructions(String userInput) {
-    if (userInput.isEmpty) {
-      setState(() {
-        insValidate = true;
-      });
-      return false;
-    }
-    setState(() {
-      insValidate = false;
-    });
-    return true;
-  }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sanogano/constant/life_json.dart';
 
@@ -12,7 +13,7 @@ class _LifePageState extends State<LifePage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left:05.0,right: 05),
+      padding: const EdgeInsets.only(left: 05.0, right: 05),
       child: Container(
         child: GridView.count(
           shrinkWrap: true,
@@ -24,10 +25,10 @@ class _LifePageState extends State<LifePage> {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left:05.0,right: 05),
+                  padding: const EdgeInsets.only(left: 05.0, right: 05),
                   child: Container(
-                    width: MediaQuery.of(context).size.height*0.160,
-                    height: MediaQuery.of(context).size.height*0.150,
+                    width: MediaQuery.of(context).size.height * 0.160,
+                    height: MediaQuery.of(context).size.height * 0.150,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),

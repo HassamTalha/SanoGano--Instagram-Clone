@@ -22,7 +22,8 @@ class MyNotifications extends StatelessWidget {
             height: 25,
             color: Colors.black,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);},
         ),
         title: Text(
           "Notifications",

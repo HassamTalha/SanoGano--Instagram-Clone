@@ -1,10 +1,14 @@
 import 'dart:io';
+import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sanogano/screens/create_post.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import '../models/reipeDetails.dart';
 
@@ -34,12 +38,27 @@ class _CreateRecipePostPageState extends State<CreateRecipePostPage> {
   bool check = false;
   DateTime _chosenDateTime;
   String time;
+  String userId;
   Widget changeState() {
     return Container();
   }
 
   @override
   void initState() {
+    print(
+        "===================================================================================");
+
+    getUserIdfromSF().then(
+      (value) {
+        setState(
+          () {
+            userId = value;
+            print(
+                "================================$userId=======================================");
+          },
+        );
+      },
+    );
     super.initState();
     setControllers();
   }
@@ -51,6 +70,14 @@ class _CreateRecipePostPageState extends State<CreateRecipePostPage> {
     _descriptionController = TextEditingController();
     _ingredientsController = TextEditingController();
     _instructionsController = TextEditingController();
+  }
+
+  Future<String> getUserIdfromSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return String
+    String userID = prefs.getString("userId") ?? "i have nothing to show";
+
+    return userID;
   }
 
   @override
@@ -87,7 +114,7 @@ class _CreateRecipePostPageState extends State<CreateRecipePostPage> {
                 // fontWeight: FontWeight.bold),
               ),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   if (_recipeNameController.text.isEmpty ||
                       _timeController.text.isEmpty ||
                       _servingsController.text.isEmpty ||
@@ -132,6 +159,50 @@ class _CreateRecipePostPageState extends State<CreateRecipePostPage> {
                                 pageIndex: 2,
                               )),
                     );
+                    Toast.show(userId, context);
+                    if (widget.image != null) {
+                      final String rand = '${new Random().nextInt(10000)}';
+                      final imageName = 'image$rand';
+                      print(
+                          'object-----------------------------------------------');
+
+                      print(widget.image.path);
+                      String fileName = (widget.image.path);
+                      Reference firebaseStorageRef =
+                          FirebaseStorage.instance.ref().child(imageName);
+                      UploadTask uploadTask =
+                          firebaseStorageRef.putFile(widget.image);
+                      TaskSnapshot taskSnapshot =
+                          await uploadTask;
+                      taskSnapshot.ref.getDownloadURL().then((value) {
+                        print("Done: $value");
+                        FirebaseFirestore.instance
+                            .collection("users/$userId/recipe")
+                            .doc()
+                            .set({
+                          "imageUrl": value,
+                          "recipeName": _recipeNameController.text,
+                          "time": _timeController.text,
+                          "noOfServings": _servingsController.text,
+                          "description": _descriptionController.text,
+                          "ingredients": _ingredientsController.text,
+                          "instructions": _instructionsController.text
+                        });
+                      });
+                    } else {
+                      FirebaseFirestore.instance
+                          .collection("users/$userId/recipe")
+                          .doc()
+                          .set({
+                        "DownloadUrl": "",
+                        "recipeName": _recipeNameController.text,
+                        "time": _timeController.text,
+                        "noOfServings": _servingsController.text,
+                        "description": _descriptionController.text,
+                        "ingredients": _ingredientsController.text,
+                        "instructions": _instructionsController.text
+                      });
+                    }
                   }
                 },
                 child: Text(
